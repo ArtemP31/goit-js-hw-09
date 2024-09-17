@@ -1,0 +1,1 @@
+{"version":3,"file":"1-gallery.js","sources":["../src/js/1-gallery.js"],"sourcesContent":["import SimpleLightbox from \"simplelightbox\";\nimport 'simplelightbox/dist/simple-lightbox.min.css';\n\n\n\nconsole.log(SimpleLightbox);\nconsole.log('hello');"],"names":["SimpleLightbox"],"mappings":"wIAKA,QAAQ,IAAIA,CAAc,EAC1B,QAAQ,IAAI,OAAO"}
