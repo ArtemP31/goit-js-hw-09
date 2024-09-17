@@ -90,4 +90,10 @@ function createImg(elements) {
 
 ulGallery.insertAdjacentHTML('afterbegin', createImg(images));
 
-console.log(SimpleLightbox);
+let gallery = new SimpleLightbox('.gallery a', {
+  captions: true,
+  captionsData: 'alt',
+  captionsDelay: 250,
+})
+
+
