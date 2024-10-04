@@ -1,49 +1,38 @@
-// const { fromJSON } = require("postcss");
+const formEl = document.querySelector('.feedback-form');
+const emailInput = formEl.elements.email;
+const messageInput = formEl.elements.message;
 
 const formData = {
-    email: "",
-    message: ""
-};
-const localStorageKey = 'feedback-form-state';
-// const STORAGE_KEY = 'feedback-text';
-// const STORAGE_EMAIL = 'feedback-email';
-
-const form = document.querySelector('.feedback-form');
-const textArea = form.querySelector('.feedback-message');
-const textEmail = form.querySelector('.feedback-email');
-
-
-form.addEventListener('submit', handelForm);
-
-function handelForm(event){
-    event.preventDefault();
-    const form = event.currentTarget;
-    if (textArea.value === '' || textEmail.value === ''){
-        alert('Fill all fields!!');
-    };
-    form.reset();
+  email: '',
+  message: '',
 };
 
-textArea.addEventListener('input',handlerTextMessage);
+document.addEventListener('DOMContentLoaded', () => {
+  const savedData = localStorage.getItem('feedback-form-state');
+  if (savedData) {
+    const parsedData = JSON.parse(savedData);
+    formData.email = parsedData.email || '';
+    formData.message = parsedData.message || '';
+    emailInput.value = formData.email;
+    messageInput.value = formData.message;
+  }
+});
 
-function handlerTextMessage(event){
-    formData.message = event.target.value;
-    localStorage.setItem(localStorageKey, JSON.stringify(formData));
-}
+formEl.addEventListener('input', event => {
+  const { name, value } = event.target;
+  formData[name] = value.trim();
+  localStorage.setItem('feedback-form-state', JSON.stringify(formData));
+});
 
-textEmail.addEventListener('input', handlerTextEmail);
-
-function handlerTextEmail(event){
-    formData.email = event.target.value;
-    localStorage.setItem(localStorageKey, JSON.stringify(formData));
-}
-
-const informationFromLocal= JSON.parse(localStorage.getItem(localStorageKey));
-
-textArea.value = informationFromLocal.message;
-textEmail.value = informationFromLocal.email;
-formData.email = informationFromLocal.email;
-formData.message = informationFromLocal.message;
-console.log(formData);
-// console.log(informationFromLocal);
-
+formEl.addEventListener('submit', event => {
+  event.preventDefault();
+  if (!formData.email || !formData.message) {
+    alert('Fill please all fields');
+    return;
+  }
+  console.log(formData);
+  localStorage.removeItem('feedback-form-state');
+  formEl.reset();
+  formData.email = '';
+  formData.message = '';
+});
